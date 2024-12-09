@@ -3,5 +3,5 @@
   "button1": "Nut bam",
   "FMain": "Man hinh 1",
   "UnknownErrorMsg": "Có lỗi xảy ra, vui lòng liên hệ Admin để được hỗ trợ!",
-  "RunWithAdministrator": "Vui lòng chạy bằng quyền Admin!"
+  "RunWithAdministratorErrorMsg": "Không thể khởi chạy ứng dụng với quyền Admin"
 }

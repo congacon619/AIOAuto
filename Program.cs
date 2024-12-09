@@ -38,20 +38,12 @@ namespace AIOAuto
 
             Debug.GetDebug();
 
+            EnsureAdminRights();
+
+            StopSuspiciousProcesses();
 
             try
             {
-                var nameProcess = new[] { "fiddler", "charles", "wireshark", "burp", "dnspy", "megadumper" };
-                Process.GetProcesses().Where(p => nameProcess.Any(p.ProcessName.ToLower().Contains)).ToList()
-                    .ForEach(y => y.Kill());
-                Process.GetProcesses().Where(p => nameProcess.Any(p.MainWindowTitle.ToLower().Contains)).ToList()
-                    .ForEach(y => y.Kill());
-
-
-                if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator) ==
-                    false) AppMessageBox.ShowMessageBox(Default.RunWithAdministrator, MsgBoxLevel.Warning);
-
-
                 Application.ApplicationExit += (sender, e) => { LanguageManager.Shutdown(); };
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -60,8 +52,74 @@ namespace AIOAuto
             catch (Exception e)
             {
                 AppMessageBox.ShowMessageBox(Default.UnknownErrorMsg, MsgBoxLevel.Error);
-                AppLogger.ErrorDetail(e, "Run Program2");
+                AppLogger.ErrorDetail(e, "Run Program");
                 Environment.Exit(0);
+            }
+        }
+
+        private static void EnsureAdminRights()
+        {
+            if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)) return;
+            var processInfo = new ProcessStartInfo
+            {
+                FileName =
+                    Process.GetCurrentProcess().MainModule?.FileName ?? throw new InvalidOperationException(),
+                UseShellExecute = true,
+                Verb = "runas"
+            };
+
+            try
+            {
+                Process.Start(processInfo);
+            }
+            catch (Exception ex)
+            {
+                AppMessageBox.ShowMessageBox(Default.RunWithAdministratorErrorMsg, MsgBoxLevel.Error);
+                AppLogger.ErrorDetail(ex, "EnsureAdminRights");
+            }
+
+            Environment.Exit(0);
+        }
+
+
+        private static void StopSuspiciousProcesses()
+        {
+            var nameProcess = new[] { "fiddler", "charles", "wireshark", "burp", "dnspy", "megadumper" };
+
+            try
+            {
+                var suspiciousProcesses = Process.GetProcesses()
+                    .Where(p =>
+                    {
+                        try
+                        {
+                            var processName = p.ProcessName.ToLower();
+                            var windowTitle = p.MainWindowTitle?.ToLower() ?? "";
+                            return nameProcess.Any(name => processName.Contains(name) || windowTitle.Contains(name));
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    })
+                    .ToList();
+
+                suspiciousProcesses.ForEach(p =>
+                {
+                    try
+                    {
+                        p.Kill();
+                        AppLogger.Warn($"Killed process: {p.ProcessName}");
+                    }
+                    catch (Exception ex)
+                    {
+                        AppLogger.ErrorDetail(ex, $"Failed to kill process {p.ProcessName}");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                AppLogger.ErrorDetail(ex, "StopSuspiciousProcesses");
             }
         }
     }

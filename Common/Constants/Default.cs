@@ -3,6 +3,6 @@
     public static class Default
     {
         public const string UnknownErrorMsg = "UnknownErrorMsg";
-        public const string RunWithAdministrator = "RunWithAdministrator";
+        public const string RunWithAdministratorErrorMsg = "RunWithAdministratorErrorMsg";
     }
 }
