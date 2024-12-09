@@ -1,7 +1,8 @@
 {
   "label1": "Label",
   "button1": "Button",
-  "FMain": "Form 1",
+  "FMain": "AIOAuto",
   "UnknownErrorMsg": "An error occurred, please contact Admin for support!",
-  "RunWithAdministratorErrorMsg": "Failed to restart with Administrator privileges."
+  "RunWithAdministratorErrorMsg": "Failed to restart with Administrator privileges.",
+  "infoLabel": "AIOAuto v{} automation software"
 }

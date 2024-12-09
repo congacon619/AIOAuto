@@ -1,7 +1,8 @@
 {
   "label1": "Van ban",
   "button1": "Nut bam",
-  "FMain": "Man hinh 1",
+  "FMain": "AIOAuto",
   "UnknownErrorMsg": "Có lỗi xảy ra, vui lòng liên hệ Admin để được hỗ trợ!",
-  "RunWithAdministratorErrorMsg": "Không thể khởi chạy ứng dụng với quyền Admin"
+  "RunWithAdministratorErrorMsg": "Không thể khởi chạy ứng dụng với quyền Admin",
+  "infoLabel": "AIOAuto v{} Phần mềm tự động"
 }
