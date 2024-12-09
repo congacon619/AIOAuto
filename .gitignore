@@ -1,0 +1,45 @@
+﻿# Các tệp hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Thư mục dựng tạm và xuất bản
+bin/
+obj/
+[TestResults]/
+
+# Thư mục xây dựng và gói cài đặt
+*.log
+*.vspscc
+*.vssscc
+*.user
+*.suo
+*.dbmdl
+*.opendb
+*.cache
+
+# File lock và tệp liên quan đến Visual Studio
+*.ide
+*.vs/
+.vscode/
+.idea
+
+
+# Các file tài liệu dự án Visual Studio
+.project/
+.project.lock.json
+.project.json
+*.Publish.xml
+
+# Các file cấu hình người dùng
+*.userprefs
+*.user
+*.psess
+
+# Tài nguyên IDE
+_ReSharper.Caches/
+
+# Tài liệu và cấu hình build server
+*.builds
+*.sln.docstates
+
+packages
